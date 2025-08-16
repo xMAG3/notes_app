@@ -1,26 +1,60 @@
 import 'package:flutter/material.dart';
 
 class ColorItem extends StatelessWidget {
-  const ColorItem({super.key});
-
+  const ColorItem({super.key, required this.isSelected, required this.color});
+  final bool isSelected;
+  final Color color;
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(radius: 35, backgroundColor: Colors.blue);
+    return isSelected
+        ? CircleAvatar(
+          radius: 34,
+          backgroundColor: color,
+          child: Icon(Icons.check, size: 34, color: Colors.white),
+        )
+        : CircleAvatar(radius: 35, backgroundColor: color);
   }
 }
 
-class ColorsListView extends StatelessWidget {
+class ColorsListView extends StatefulWidget {
   const ColorsListView({super.key});
 
+  @override
+  State<ColorsListView> createState() => _ColorsListViewState();
+}
+
+class _ColorsListViewState extends State<ColorsListView> {
+  int selectedIndex = 0;
+
+  List<Color> colors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.yellow,
+    Colors.purple,
+  ];
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 70,
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: colors.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return ColorItem();
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              child: ColorItem(
+                isSelected: selectedIndex == index,
+                color: colors[index],
+              ),
+            ),
+          );
         },
       ),
     );

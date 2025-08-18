@@ -33,8 +33,9 @@ class _EditNotesColorsListState extends State<EditNotesColorsList> {
             padding: const EdgeInsets.symmetric(horizontal: 6.0),
             child: GestureDetector(
               onTap: () {
-                var selectedIndex = index;
+                selectedIndex = index;
                 widget.note.color = kColors[index].value;
+                setState(() {});
               },
               child: ColorItem(
                 isSelected: selectedIndex == index,
